@@ -1,0 +1,32 @@
+{
+    "uid": "soundcloud-widget",
+    "name": "SoundCloud Widget",
+    "description": "This is SoundCloud Widget.",
+    "version": "0.1.0",
+	"author": {
+		"name": "MEANtech",
+		"email": "asdf@sdbfsdf.com",
+		"website": "http://pencilblue.org",
+		"contributors": [
+			{
+				"name": "Daniel Whatley",
+				"email": "danieljwhatley@gmail.com"
+			}
+		]
+	},
+	"settings": [
+      {
+        "name": "soundcloud_profile_name",
+        "value": ""
+      }
+    ],
+	"permissions": {
+		"ACCESS_USER": [],
+		"ACCESS_WRITER": [],
+		"ACCESS_EDITOR": [],
+		"ACCESS_MANAGING_EDITOR": []
+	},
+	"main_module": {
+		"path": "soundcloud-widget.js"
+	}
+}

@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2015 MY MOM!!
+ Copyright (C) 2015 DeepTech Studios
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//TODO Go through and update this for SoundCloud player embedding
+//TODO Go through and update this for MixCloud player embedding
 
 //dependencies
 var url = require('url');
@@ -23,10 +23,10 @@ var BaseMediaRenderer = require(DOCUMENT_ROOT + '/include/service/media/renderer
 
 /**
  *
- * @class SoundCloudMediaRenderer
+ * @class MixCloudMediaRenderer
  * @constructor
  */
-function SoundCloudMediaRenderer(){}
+function MixCloudMediaRenderer(){}
 
 /**
  * The media type supported by the provider
@@ -35,7 +35,7 @@ function SoundCloudMediaRenderer(){}
  * @property TYPE
  * @type {String}
  */
-var TYPE = 'soundcloud';
+var TYPE = 'mixcloud';
 
 /**
  * Provides the styles used by each type of view
@@ -68,7 +68,7 @@ var STYLES = Object.freeze({
  * @param {String} viewType The view type calling for a styling
  * @return {Object} a hash of style properties
  */
-SoundCloudMediaRenderer.getStyle = function(viewType) {
+MixCloudMediaRenderer.getStyle = function(viewType) {
     return STYLES[viewType] || STYLES.view;
 };
 
@@ -78,7 +78,7 @@ SoundCloudMediaRenderer.getStyle = function(viewType) {
  * @method getSupportedTypes
  * @return {Object}
  */
-SoundCloudMediaRenderer.getSupportedTypes = function() {
+MixCloudMediaRenderer.getSupportedTypes = function() {
     var types = {};
     types[TYPE] = true;
     return types;
@@ -90,8 +90,8 @@ SoundCloudMediaRenderer.getSupportedTypes = function() {
  * @method getName
  * @return {String}
  */
-SoundCloudMediaRenderer.getName = function() {
-    return 'SoundCloudMediaRenderer';
+MixCloudMediaRenderer.getName = function() {
+    return 'MixCloudMediaRenderer';
 };
 
 /**
@@ -101,9 +101,9 @@ SoundCloudMediaRenderer.getName = function() {
  * @param {String} urlStr
  * @return {Boolean} TRUE if the URL is supported by the renderer, FALSE if not
  */
-SoundCloudMediaRenderer.isSupported = function(urlStr) {
+MixCloudMediaRenderer.isSupported = function(urlStr) {
     var details = url.parse(urlStr, true, true);
-    return SoundCloudMediaRenderer.isFullSite(details);
+    return MixCloudMediaRenderer.isFullSite(details);
 };
 
 /**
@@ -114,11 +114,11 @@ SoundCloudMediaRenderer.isSupported = function(urlStr) {
  * @param {Object|String} parsedUrl The URL string or URL object
  * @return {Boolean} TRUE if URL points to the main domain and media resource, FALSE if not
  */
-SoundCloudMediaRenderer.isFullSite = function(parsedUrl) {
+MixCloudMediaRenderer.isFullSite = function(parsedUrl) {
     if (pb.utils.isString(parsedUrl)) {
         parsedUrl = url.parse(urlStr, true, true);
     }
-    return parsedUrl.host && parsedUrl.host.indexOf('soundcloud.com') >= 0;
+    return parsedUrl.host && parsedUrl.host.indexOf('mixcloud.com') >= 0;
 };
 
 /**
@@ -128,8 +128,8 @@ SoundCloudMediaRenderer.isFullSite = function(parsedUrl) {
  * @param {String} urlStr
  * @return {String}
  */
-SoundCloudMediaRenderer.getType = function(urlStr) {
-    return SoundCloudMediaRenderer.isSupported(urlStr) ? TYPE : null;
+MixCloudMediaRenderer.getType = function(urlStr) {
+    return MixCloudMediaRenderer.isSupported(urlStr) ? TYPE : null;
 }
 
 /**
@@ -140,7 +140,7 @@ SoundCloudMediaRenderer.getType = function(urlStr) {
  * @param {String} type
  * @return {String}
  */
-SoundCloudMediaRenderer.getIcon = function(type) {
+MixCloudMediaRenderer.getIcon = function(type) {
     return TYPE;
 };
 
@@ -158,12 +158,12 @@ SoundCloudMediaRenderer.getIcon = function(type) {
  * occurred and the second is the rendering of the media resource as a HTML
  * formatted string
  */
-SoundCloudMediaRenderer.renderByUrl = function(urlStr, options, cb) {
-    SoundCloudMediaRenderer.getMediaId(urlStr, function(err, mediaId) {
+MixCloudMediaRenderer.renderByUrl = function(urlStr, options, cb) {
+    MixCloudMediaRenderer.getMediaId(urlStr, function(err, mediaId) {
         if (util.isError(err)) {
             return cb(err);
         }
-        SoundCloudMediaRenderer.render({location: mediaId}, options, cb);
+        MixCloudMediaRenderer.render({location: mediaId}, options, cb);
     });
 };
 
@@ -185,22 +185,14 @@ SoundCloudMediaRenderer.renderByUrl = function(urlStr, options, cb) {
  * occurred and the second is the rendering of the media resource as a HTML
  * formatted string
  */
-SoundCloudMediaRenderer.render = function(media, options, cb) {
+MixCloudMediaRenderer.render = function(media, options, cb) {
     if (pb.utils.isFunction(options)) {
         cb = options;
         options = {};
     }
 
-    var embedUrl = SoundCloudMediaRenderer.getEmbedUrl(media.location);
-    var color = "ff0066";
-    var divId = "sc_player_" + (media.name ?
-                media.name.toLowerCase().replace(' ', '_') :
-                "0" );
-    var content = '<script type="text/javascript">' +
-        '$.getScript("http://connect.soundcloud.com/sdk.js", function() { ' +
-        'SC.oEmbed("' + embedUrl + '", { color: "' + color + '" }, ' +
-        'document.getElementById("' + divId + '")); });</script>' +
-        '<div id="' + divId + '"></div>';
+    var embedUrl = MixCloudMediaRenderer.getEmbedUrl(media.location);
+    var content = ''; // TODO Get from MixCloud API
 
     cb(null, new pb.TemplateValue(content, false));
 };
@@ -215,8 +207,8 @@ SoundCloudMediaRenderer.render = function(media, options, cb) {
  * @return {String} A properly formatted URI string that points to the resource
  * represented by the media Id
  */
-SoundCloudMediaRenderer.getEmbedUrl = function(mediaId) {
-    return 'https://www.soundcloud.com' + mediaId;
+MixCloudMediaRenderer.getEmbedUrl = function(mediaId) {
+    return 'https://www.mixcloud.com' + mediaId;
 };
 
 /**
@@ -226,9 +218,9 @@ SoundCloudMediaRenderer.getEmbedUrl = function(mediaId) {
  * @static
  * @method getMediaId
  */
-SoundCloudMediaRenderer.getMediaId = function(urlStr, cb) {
+MixCloudMediaRenderer.getMediaId = function(urlStr, cb) {
     var details = url.parse(urlStr, true, true);
-    if (SoundCloudMediaRenderer.isFullSite(details)) {
+    if (MixCloudMediaRenderer.isFullSite(details)) {
         return cb(null, details.path);
     }
     return cb(null, null);
@@ -244,7 +236,7 @@ SoundCloudMediaRenderer.getMediaId = function(urlStr, cb) {
  * @param {Function} cb A callback that provides an Error if occurred and an
  * Object if meta was collected.  NULL if no meta was collected
  */
-SoundCloudMediaRenderer.getMeta = function(urlStr, isFile, cb) {
+MixCloudMediaRenderer.getMeta = function(urlStr, isFile, cb) {
     var details = url.parse(urlStr, true, true);
 
     var meta = details.query;
@@ -261,9 +253,9 @@ SoundCloudMediaRenderer.getMeta = function(urlStr, isFile, cb) {
  * NULL if no thumbnail is available
  */
 // TODO figure out if this is possible
-SoundCloudMediaRenderer.getThumbnail = function(urlStr, cb) {
-    SoundCloudMediaRenderer.getMediaId(urlStr, function(err, mediaId) {
-        cb(err, 'http://img.soundcloud.com/vi/' + mediaId + '/0.jpg');
+MixCloudMediaRenderer.getThumbnail = function(urlStr, cb) {
+    MixCloudMediaRenderer.getMediaId(urlStr, function(err, mediaId) {
+        cb(err, '');
     });
 };
 
@@ -273,9 +265,9 @@ SoundCloudMediaRenderer.getThumbnail = function(urlStr, cb) {
  * @static
  * @method getNativeUrl
  */
-SoundCloudMediaRenderer.getNativeUrl = function(media) {
-    return 'https://www.soundcloud.com' + media.location;
+MixCloudMediaRenderer.getNativeUrl = function(media) {
+    return 'https://www.mixcloud.com' + media.location;
 };
 
 //exports
-module.exports = SoundCloudMediaRenderer;
+module.exports = MixCloudMediaRenderer;

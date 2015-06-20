@@ -1,25 +1,15 @@
 {
-    "uid": "soundcloud-widget",
-    "name": "SoundCloud Widget",
-    "description": "This is SoundCloud Widget.",
+    "uid": "mixcloud-widget",
+    "name": "MixCloud Widget",
+    "description": "This is MixCloud Widget.",
     "version": "0.1.0",
+  	"pb_version": "0.4.x",
 	"author": {
-		"name": "MEANtech",
-		"email": "asdf@sdbfsdf.com",
-		"website": "http://pencilblue.org",
-		"contributors": [
-			{
-				"name": "Daniel Whatley",
-				"email": "danieljwhatley@gmail.com"
-			}
-		]
+		"name": "Daniel Whatley",
+		"email": "djwhatley@deeptechstudios.com",
+		"website": "http://deeptechstudios.com"
 	},
-	"settings": [
-      {
-        "name": "soundcloud_profile_name",
-        "value": ""
-      }
-    ],
+	"settings": [],
 	"permissions": {
 		"ACCESS_USER": [],
 		"ACCESS_WRITER": [],
@@ -27,6 +17,6 @@
 		"ACCESS_MANAGING_EDITOR": []
 	},
 	"main_module": {
-		"path": "soundcloud-widget.js"
+		"path": "mixcloud_widget.js"
 	}
 }
